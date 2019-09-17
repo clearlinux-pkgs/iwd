@@ -4,10 +4,10 @@
 #
 Name     : iwd
 Version  : 0.21
-Release  : 2
+Release  : 3
 URL      : https://www.kernel.org/pub/linux/network/wireless/iwd-0.21.tar.xz
 Source0  : https://www.kernel.org/pub/linux/network/wireless/iwd-0.21.tar.xz
-Summary  : No detailed summary available
+Summary  : Wireless daemon for Linux
 Group    : Development/Tools
 License  : LGPL-2.1
 Requires: iwd-bin = %{version}-%{release}
@@ -91,7 +91,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1568758114
+export SOURCE_DATE_EPOCH=1568760212
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
@@ -108,7 +108,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1568758114
+export SOURCE_DATE_EPOCH=1568760212
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/iwd
 cp COPYING %{buildroot}/usr/share/package-licenses/iwd/COPYING
