@@ -4,7 +4,7 @@
 #
 Name     : iwd
 Version  : 0.22
-Release  : 4
+Release  : 5
 URL      : https://www.kernel.org/pub/linux/network/wireless/iwd-0.22.tar.xz
 Source0  : https://www.kernel.org/pub/linux/network/wireless/iwd-0.22.tar.xz
 Summary  : Wireless daemon for Linux
