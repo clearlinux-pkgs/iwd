@@ -1,5 +1,6 @@
-0.22
+1.0
 docutils
 pkgconfig(dbus-1)
 pkgconfig(systemd)
 systemd-dev
+util-linux
