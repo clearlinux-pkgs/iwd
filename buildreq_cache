@@ -1,6 +1,2 @@
-1.4
+1.5
 docutils
-pkgconfig(dbus-1)
-pkgconfig(systemd)
-systemd-dev
-util-linux
