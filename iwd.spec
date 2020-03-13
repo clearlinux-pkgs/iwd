@@ -4,7 +4,7 @@
 #
 Name     : iwd
 Version  : 1.5
-Release  : 11
+Release  : 12
 URL      : https://www.kernel.org/pub/linux/network/wireless/iwd-1.5.tar.xz
 Source0  : https://www.kernel.org/pub/linux/network/wireless/iwd-1.5.tar.xz
 Summary  : Wireless daemon for Linux
@@ -102,14 +102,13 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1581302109
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1584142837
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$CFLAGS -fno-lto "
 export FFLAGS="$CFLAGS -fno-lto "
 export CXXFLAGS="$CXXFLAGS -fno-lto "
-%configure --disable-static
+%configure --disable-static --enable-wired
 make  %{?_smp_mflags}
 
 %check
@@ -120,7 +119,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1581302109
+export SOURCE_DATE_EPOCH=1584142837
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/iwd
 cp %{_builddir}/iwd-1.5/COPYING %{buildroot}/usr/share/package-licenses/iwd/32c7c5556c56cdbb2d507e27d28d081595a35a9b
@@ -141,11 +140,14 @@ cp %{_builddir}/iwd-1.5/COPYING %{buildroot}/usr/share/package-licenses/iwd/32c7
 
 %files data
 %defattr(-,root,root,-)
+/usr/share/dbus-1/system-services/net.connman.ead.service
 /usr/share/dbus-1/system-services/net.connman.iwd.service
+/usr/share/dbus-1/system.d/ead-dbus.conf
 /usr/share/dbus-1/system.d/iwd-dbus.conf
 
 %files libexec
 %defattr(-,root,root,-)
+/usr/libexec/ead
 /usr/libexec/iwd
 
 %files license
@@ -159,8 +161,10 @@ cp %{_builddir}/iwd-1.5/COPYING %{buildroot}/usr/share/package-licenses/iwd/32c7
 /usr/share/man/man5/iwd.config.5
 /usr/share/man/man5/iwd.network.5
 /usr/share/man/man7/iwd.debug.7
+/usr/share/man/man8/ead.8
 /usr/share/man/man8/iwd.8
 
 %files services
 %defattr(-,root,root,-)
+/usr/lib/systemd/system/ead.service
 /usr/lib/systemd/system/iwd.service
