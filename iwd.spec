@@ -4,7 +4,7 @@
 #
 Name     : iwd
 Version  : 1.26
-Release  : 33
+Release  : 34
 URL      : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-1.26.tar.xz
 Source0  : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-1.26.tar.xz
 Summary  : Wireless daemon for Linux
@@ -17,12 +17,12 @@ Requires: iwd-libexec = %{version}-%{release}
 Requires: iwd-license = %{version}-%{release}
 Requires: iwd-man = %{version}-%{release}
 Requires: iwd-services = %{version}-%{release}
-BuildRequires : docutils
 BuildRequires : ncurses-dev
 BuildRequires : pkgconfig(dbus-1)
 BuildRequires : pkgconfig(ell)
 BuildRequires : pkgconfig(readline)
 BuildRequires : pkgconfig(systemd)
+BuildRequires : pypi-docutils
 BuildRequires : readline-dev
 
 %description
@@ -103,7 +103,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1647985657
+export SOURCE_DATE_EPOCH=1649966908
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fno-lto "
 export FCFLAGS="$FFLAGS -fno-lto "
@@ -120,7 +120,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1647985657
+export SOURCE_DATE_EPOCH=1649966908
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/iwd
 cp %{_builddir}/iwd-1.26/COPYING %{buildroot}/usr/share/package-licenses/iwd/32c7c5556c56cdbb2d507e27d28d081595a35a9b
