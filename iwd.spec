@@ -4,10 +4,10 @@
 # Using build pattern: configure
 #
 Name     : iwd
-Version  : 2.4
-Release  : 43
-URL      : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.4.tar.xz
-Source0  : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.4.tar.xz
+Version  : 2.5
+Release  : 44
+URL      : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.5.tar.xz
+Source0  : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.5.tar.xz
 Summary  : Wireless daemon for Linux
 Group    : Development/Tools
 License  : LGPL-2.1
@@ -21,6 +21,9 @@ Requires: iwd-services = %{version}-%{release}
 BuildRequires : buildreq-configure
 BuildRequires : ncurses-dev
 BuildRequires : pkgconfig(dbus-1)
+BuildRequires : pkgconfig(ell)
+BuildRequires : pkgconfig(libedit)
+BuildRequires : pkgconfig(readline)
 BuildRequires : pkgconfig(systemd)
 BuildRequires : pypi-docutils
 BuildRequires : readline-dev
@@ -92,42 +95,62 @@ man components for the iwd package.
 %package services
 Summary: services components for the iwd package.
 Group: Systemd services
+Requires: systemd
 
 %description services
 services components for the iwd package.
 
 
 %prep
-%setup -q -n iwd-2.4
-cd %{_builddir}/iwd-2.4
+%setup -q -n iwd-2.5
+cd %{_builddir}/iwd-2.5
+pushd ..
+cp -a iwd-2.5 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1679953075
+export SOURCE_DATE_EPOCH=1684971144
 export GCC_IGNORE_WERROR=1
-export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
-export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz "
+export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export FFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
+export CXXFLAGS="$CXXFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 %configure --disable-static --enable-wired
 make  %{?_smp_mflags}
 
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export CXXFLAGS="$CXXFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FFLAGS="$FFLAGS -m64 -march=x86-64-v3 -Wl,-z,x86-64-v3"
+export FCFLAGS="$FCFLAGS -m64 -march=x86-64-v3"
+export LDFLAGS="$LDFLAGS -m64 -march=x86-64-v3"
+%configure --disable-static --enable-wired
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check || :
+cd ../buildavx2;
+make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1679953075
+export SOURCE_DATE_EPOCH=1684971144
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/iwd
 cp %{_builddir}/iwd-%{version}/COPYING %{buildroot}/usr/share/package-licenses/iwd/32c7c5556c56cdbb2d507e27d28d081595a35a9b || :
+pushd ../buildavx2/
+%make_install_v3
+popd
 %make_install
+/usr/bin/elf-move.py avx2 %{buildroot}-v3 %{buildroot} %{buildroot}/usr/share/clear/filemap/filemap-%{name}
 
 %files
 %defattr(-,root,root,-)
@@ -135,6 +158,8 @@ cp %{_builddir}/iwd-%{version}/COPYING %{buildroot}/usr/share/package-licenses/i
 
 %files bin
 %defattr(-,root,root,-)
+/V3/usr/bin/iwctl
+/V3/usr/bin/iwmon
 /usr/bin/iwctl
 /usr/bin/iwmon
 
@@ -151,6 +176,8 @@ cp %{_builddir}/iwd-%{version}/COPYING %{buildroot}/usr/share/package-licenses/i
 
 %files libexec
 %defattr(-,root,root,-)
+/V3/usr/libexec/ead
+/V3/usr/libexec/iwd
 /usr/libexec/ead
 /usr/libexec/iwd
 
