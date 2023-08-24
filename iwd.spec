@@ -4,10 +4,10 @@
 # Using build pattern: configure
 #
 Name     : iwd
-Version  : 2.7
-Release  : 48
-URL      : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.7.tar.xz
-Source0  : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.7.tar.xz
+Version  : 2.8
+Release  : 49
+URL      : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.8.tar.xz
+Source0  : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.8.tar.xz
 Summary  : Wireless daemon for Linux
 Group    : Development/Tools
 License  : LGPL-2.1
@@ -102,10 +102,10 @@ services components for the iwd package.
 
 
 %prep
-%setup -q -n iwd-2.7
-cd %{_builddir}/iwd-2.7
+%setup -q -n iwd-2.8
+cd %{_builddir}/iwd-2.8
 pushd ..
-cp -a iwd-2.7 buildavx2
+cp -a iwd-2.8 buildavx2
 popd
 
 %build
@@ -113,7 +113,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1689830886
+export SOURCE_DATE_EPOCH=1692890816
 export GCC_IGNORE_WERROR=1
 export CFLAGS="$CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 export FCFLAGS="$FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
@@ -142,7 +142,7 @@ cd ../buildavx2;
 make %{?_smp_mflags} check || : || :
 
 %install
-export SOURCE_DATE_EPOCH=1689830886
+export SOURCE_DATE_EPOCH=1692890816
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/iwd
 cp %{_builddir}/iwd-%{version}/COPYING %{buildroot}/usr/share/package-licenses/iwd/32c7c5556c56cdbb2d507e27d28d081595a35a9b || :
