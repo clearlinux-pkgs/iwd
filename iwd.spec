@@ -6,10 +6,10 @@
 # autospec commit: c1050fe
 #
 Name     : iwd
-Version  : 2.10
-Release  : 52
-URL      : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.10.tar.xz
-Source0  : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.10.tar.xz
+Version  : 2.11
+Release  : 53
+URL      : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.11.tar.xz
+Source0  : https://mirrors.kernel.org/pub/linux/network/wireless/iwd-2.11.tar.xz
 Summary  : Wireless daemon for Linux
 Group    : Development/Tools
 License  : LGPL-2.1
@@ -104,10 +104,10 @@ services components for the iwd package.
 
 
 %prep
-%setup -q -n iwd-2.10
-cd %{_builddir}/iwd-2.10
+%setup -q -n iwd-2.11
+cd %{_builddir}/iwd-2.11
 pushd ..
-cp -a iwd-2.10 buildavx2
+cp -a iwd-2.11 buildavx2
 popd
 
 %build
@@ -115,7 +115,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1701973561
+export SOURCE_DATE_EPOCH=1702920470
 export GCC_IGNORE_WERROR=1
 CLEAR_INTERMEDIATE_CFLAGS="$CLEAR_INTERMEDIATE_CFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
 CLEAR_INTERMEDIATE_FCFLAGS="$CLEAR_INTERMEDIATE_FFLAGS -fdebug-types-section -femit-struct-debug-baseonly -fno-lto -g1 -gno-column-info -gno-variable-location-views -gz=zstd "
@@ -161,7 +161,7 @@ FFLAGS="$CLEAR_INTERMEDIATE_FFLAGS"
 FCFLAGS="$CLEAR_INTERMEDIATE_FCFLAGS"
 ASFLAGS="$CLEAR_INTERMEDIATE_ASFLAGS"
 LDFLAGS="$CLEAR_INTERMEDIATE_LDFLAGS"
-export SOURCE_DATE_EPOCH=1701973561
+export SOURCE_DATE_EPOCH=1702920470
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/iwd
 cp %{_builddir}/iwd-%{version}/COPYING %{buildroot}/usr/share/package-licenses/iwd/32c7c5556c56cdbb2d507e27d28d081595a35a9b || :
